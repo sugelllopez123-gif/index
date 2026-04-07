@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Scentella — Inicio</title>
+  <style>
+    :root{--beige:#F5EFE7;--beige-dark:#E8DCC4;--gold:#D4AF37;--gold-dark:#B8952E;--gold-light:#F4E4B8;--deep:#3E2723;--white:#FFFFFF;--muted:#8B7355;--sheet-w:1000px}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Lato','Segoe UI',system-ui,Arial,sans-serif;background:url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><path d="M30 0L35 25L60 30L35 35L30 60L25 35L0 30L25 25Z" fill="%23D4AF37" opacity="0.03"/></svg>'),linear-gradient(135deg, #FFF8F0 0%, #F5EFE7 25%, #E8DCC4 50%, #F4E4B8 75%, #FFF8F0 100%);color:var(--deep);-webkit-font-smoothing:antialiased;background-attachment:fixed}
+    .page{min-height:100vh;display:flex;align-items:stretch;justify-content:center;padding:0}
+    .card{width:100%;max-width:none;background:var(--white);box-shadow:0 20px 60px rgba(62,39,35,0.12);overflow:hidden;border-radius:0;padding-top:var(--header-offset,96px);transition:padding-top 180ms ease}
+    .topbar{height:8px;background:linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 25%, var(--gold-dark) 50%, var(--gold-light) 75%, var(--gold) 100%);box-shadow:0 2px 8px rgba(212,175,55,0.4)}
+    header{display:flex;align-items:center;justify-content:space-between;padding:24px 64px;background:linear-gradient(180deg, #FFFFFF 0%, #FFF8F0 100%);border-bottom:3px solid transparent;border-image:linear-gradient(90deg, var(--gold), var(--gold-light), var(--beige), var(--gold-light), var(--gold)) 1;box-shadow:0 4px 20px rgba(212,175,55,0.15);position:fixed;left:0;right:0;top:0;z-index:1000;backdrop-filter:none;transition:padding 220ms ease, box-shadow 220ms ease, background-color 220ms ease}
+    header::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:3px;background:linear-gradient(90deg, transparent, var(--gold-light), transparent);opacity:0.5}
+    /* compact header when scrolled (smaller) */
+    header.scrolled{padding:6px 24px;box-shadow:0 8px 24px rgba(0,0,0,0.10);background:rgba(255,255,255,0.96);backdrop-filter:blur(5px)}
+    header.scrolled .brand{font-size:20px}
+    header.scrolled .brand-logo{width:44px;height:44px;padding:4px;}
+    .header-right{display:flex;align-items:center;gap:24px}
+    .brand-container{display:flex;align-items:center;gap:12px}
+    .brand-logo{width:60px;height:60px;object-fit:contain;border-radius:50%;padding:8px;background:linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--beige-dark) 100%);box-shadow:0 6px 20px rgba(212,175,55,0.5),inset 0 2px 4px rgba(255,255,255,0.5);border:3px solid var(--white);transition:all 0.3s ease;animation:logoGlow 3s ease-in-out infinite}
+    @keyframes logoGlow{0%,100%{box-shadow:0 6px 20px rgba(212,175,55,0.5),inset 0 2px 4px rgba(255,255,255,0.5)}50%{box-shadow:0 8px 30px rgba(212,175,55,0.8),inset 0 2px 8px rgba(255,255,255,0.7),0 0 20px rgba(212,175,55,0.4)}}
+    .brand-logo:hover{transform:rotate(360deg) scale(1.15);box-shadow:0 10px 40px rgba(212,175,55,0.9),0 0 30px rgba(212,175,55,0.6)}
+    .brand{font-family:'Playfair Display',serif;font-size:36px;letter-spacing:3px;background:linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold-dark) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;text-shadow:2px 2px 4px rgba(212,175,55,0.3);position:relative;filter:drop-shadow(0 2px 8px rgba(212,175,55,0.3))}
+    nav{display:flex;gap:32px;align-items:center}
+    nav a{font-size:15px;color:var(--deep);text-decoration:none;font-weight:600;letter-spacing:0.8px;transition:all 0.3s ease;position:relative;padding:8px 16px;border-radius:20px;background:transparent}
+    nav a::before{content:'✦';position:absolute;left:-8px;opacity:0;color:var(--gold);transition:all 0.3s ease;font-size:12px}
+    nav a:hover{color:var(--gold);background:linear-gradient(135deg, rgba(212,175,55,0.1), rgba(232,168,124,0.1));transform:translateY(-2px)}
+    nav a:hover::before{opacity:1;left:4px}
+    nav a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:3px;background:linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold-dark));transition:width 0.3s ease;border-radius:3px}
+    nav a:hover::after{width:100%}
+    nav a.active{color:var(--gold);font-weight:700}
+    nav a.active::after{width:100%}
+    .actions{display:flex;gap:16px;align-items:center}
+    .cart-btn{position:relative;background:transparent;border:0;font-size:20px;cursor:pointer;transition:transform 0.2s ease;color:var(--deep)}
+    .cart-btn:hover{transform:scale(1.1);color:var(--gold)}
+    .badge{position:absolute;top:-8px;right:-10px;background:linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);color:var(--white);font-size:11px;padding:3px 7px;border-radius:12px;font-weight:700;box-shadow:0 2px 8px rgba(212,175,55,0.4)}
+
+
+    .hero{position:relative;display:flex;align-items:center;padding:80px 64px;min-height:500px;background:url('imagenes/productos_limpieza_dorados.png');background-size:cover;background-position:center;overflow:hidden;border-bottom-left-radius:50px;border-bottom-right-radius:50px}
+    .hero::before{content:'';position:absolute;inset:0;background:transparent;pointer-events:none}
+    .hero-inner{display:flex;align-items:center;gap:32px;width:100%;position:relative;z-index:1}
+    .hero-left{flex:1;padding:40px;max-width:650px;background:rgba(96, 96, 68, 0.45);border-radius:16px;backdrop-filter:blur(8px)}
+    .hero-left h1{font-family:'Playfair Display',serif;font-size:56px;margin:0 0 20px 0;line-height:1.1;color:var(--white);text-shadow:0 2px 8px rgba(0,0,0,0.2);font-weight:700}
+    .hero-left p{color:rgba(255,255,255,0.95);margin:0 0 32px 0;font-size:18px;line-height:1.6;text-shadow:none}
+    .btn{display:inline-block;padding:14px 32px;border-radius:50px;border:2px solid transparent;cursor:pointer;font-weight:600;font-size:15px;letter-spacing:0.5px;transition:all 0.3s ease;text-decoration:none;text-align:center}
+    .btn.gold{background:linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold-dark) 100%);color:var(--white);box-shadow:0 8px 24px rgba(212,175,55,0.4),inset 0 1px 0 rgba(255,255,255,0.3);border:3px solid var(--white);position:relative;overflow:hidden}
+    .btn.gold::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);transform:rotate(45deg);transition:all 0.6s ease}
+    .btn.gold:hover{transform:translateY(-4px) scale(1.05);box-shadow:0 15px 45px rgba(212,175,55,0.6),0 0 20px rgba(212,175,55,0.4);background:linear-gradient(135deg, var(--gold-dark) 0%, var(--beige-dark) 50%, var(--gold) 100%)}
+    .btn.gold:hover::before{left:100%}
+    .btn.outline{background:transparent;color:var(--gold);border:2px solid var(--gold)}
+    .btn.outline:hover{background:var(--gold);color:var(--white)}
+    .hero-right{display:none}
+
+
+    .featured{padding:80px 64px;background:linear-gradient(180deg, #FFFFFF 0%, #FFF8F0 25%, #F5EFE7 50%, #FFE5CC 75%, #F4E4B8 100%);position:relative;border-top:3px dashed var(--gold-light);border-bottom:3px dashed var(--gold-light)}
+    .featured::before{content:'✿';position:absolute;top:30px;left:50px;font-size:60px;color:var(--gold);opacity:0.1}
+    .featured::after{content:'✿';position:absolute;bottom:30px;right:50px;font-size:60px;color:var(--gold);opacity:0.1;transform:rotate(45deg)}
+    .featured h3{margin:0 0 50px;font-family:'Playfair Display',serif;font-size:44px;text-align:center;background:linear-gradient(135deg, var(--deep), var(--gold-dark), var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700;position:relative;text-shadow:2px 2px 4px rgba(212,175,55,0.2)}
+    .featured h3::before{content:'';position:absolute;bottom:-15px;left:50%;transform:translateX(-50%);width:150px;height:4px;background:linear-gradient(90deg, transparent, var(--gold), var(--accent), var(--gold), transparent);border-radius:2px}
+    .featured h3::after{content:'✦ ✿ ✦';display:block;font-size:20px;margin-top:20px;color:var(--gold);opacity:0.6}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+    .product{background:linear-gradient(135deg, #FFFFFF 0%, #FFF8F0 100%);padding:28px;border-radius:20px;text-align:center;border:3px solid var(--gold-light);transition:all 0.4s ease;box-shadow:0 8px 25px rgba(212,175,55,0.2),inset 0 1px 0 rgba(255,255,255,0.8);position:relative;overflow:hidden}
+    .product::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="%23D4AF37" opacity="0.1"/></svg>');pointer-events:none}
+    .product:hover{transform:translateY(-12px) scale(1.03);box-shadow:0 20px 50px rgba(212,175,55,0.4),0 0 0 5px rgba(212,175,55,0.15);border-color:var(--gold);background:linear-gradient(135deg, #FFF8F0 0%, #FFE5CC 100%)}
+    .product img{width:100%;height:200px;object-fit:cover;border-radius:12px;margin-bottom:16px}
+    .product h4{margin:0 0 8px;font-size:18px;color:var(--deep);font-weight:600}
+    .product p{color:var(--muted);font-size:14px;margin:0 0 16px}
+    .product .btn{background:transparent;color:var(--gold-dark);border:2px solid var(--gold-dark);padding:10px 28px;font-size:14px;font-weight:600;border-radius:50px;text-decoration:none;display:inline-block;transition:all 0.3s ease}
+    .product .btn:hover{background:linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);color:var(--white);transform:translateY(-2px);box-shadow:0 4px 16px rgba(212,175,55,0.4)}
+
+
+    .why{display:flex;gap:32px;padding:80px 64px;background:linear-gradient(135deg, #F4E4B8 0%, #FFE5CC 25%, #F5EFE7 50%, #E8DCC4 75%, #F4E4B8 100%);position:relative;border-top:4px solid var(--gold);border-bottom:4px solid var(--gold)}
+    .why::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url('data:image/svg+xml,<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg"><circle cx="25" cy="25" r="2" fill="%23D4AF37" opacity="0.1"/></svg>');pointer-events:none}
+    .why .col{flex:1;background:linear-gradient(135deg, #FFFFFF 0%, #FFF8F0 100%);padding:40px;border-radius:24px;border:3px solid var(--gold-light);box-shadow:0 12px 40px rgba(212,175,55,0.25),inset 0 1px 0 rgba(255,255,255,0.8);transition:all 0.3s ease;position:relative;overflow:hidden}
+    .why .col::before{content:'';position:absolute;top:-50%;right:-50%;width:150%;height:150%;background:radial-gradient(circle, rgba(212,175,55,0.1), transparent);pointer-events:none}
+    .why .col:hover{transform:translateY(-8px) rotate(1deg);box-shadow:0 20px 60px rgba(212,175,55,0.4),0 0 0 4px rgba(212,175,55,0.15)}
+    .why .col h3{font-family:'Playfair Display',serif;font-size:32px;margin:0 0 30px;background:linear-gradient(135deg, var(--deep), var(--gold-dark), var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700;position:relative;padding-bottom:20px}
+    .why .col h3::after{content:'';position:absolute;bottom:0;left:0;width:80px;height:4px;background:linear-gradient(90deg, var(--gold), var(--accent), transparent);border-radius:2px}
+    .feature-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:16px}
+    .feature-list li{display:flex;gap:16px;align-items:flex-start}
+    .icon-circle{width:56px;height:56px;min-width:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--beige-dark) 100%);color:var(--white);font-size:24px;font-weight:700;box-shadow:0 6px 20px rgba(212,175,55,0.4),inset 0 2px 4px rgba(255,255,255,0.3);border:3px solid var(--white);animation:pulse 2s ease-in-out infinite}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05);box-shadow:0 8px 25px rgba(212,175,55,0.6)}}
+
+
+    .newsletter{padding:48px 40px;background:linear-gradient(135deg, #FFE5CC 0%, #F4E4B8 25%, #E8DCC4 50%, #F4E4B8 75%, #FFE5CC 100%);border-top:3px solid var(--gold);position:relative;overflow:hidden}
+    .newsletter::before{content:'';position:absolute;top:-30px;left:-30px;width:140px;height:140px;background:radial-gradient(circle, rgba(212,175,55,0.18), transparent);border-radius:50%}
+    .newsletter::after{content:'';position:absolute;bottom:-30px;right:-30px;width:140px;height:140px;background:radial-gradient(circle, rgba(212,175,55,0.18), transparent);border-radius:50%}
+    .newsletter h3{text-align:center;margin:0 0 18px;font-family:'Playfair Display',serif;font-size:28px;background:linear-gradient(135deg, var(--deep), var(--gold), var(--gold-light));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700;position:relative}
+    .newsletter h3::before{content:'✉';margin-right:12px;font-size:26px;color:var(--gold);opacity:0.8}
+    .newsletter form{display:flex;gap:12px;max-width:520px;margin:0 auto;position:relative;z-index:1}
+    .newsletter input{flex:1;padding:12px 20px;border:2px solid var(--gold);border-radius:40px;background:var(--white);font-size:14px;box-shadow:0 3px 12px rgba(212,175,55,0.18)}
+    .newsletter input:focus{outline:none;border-color:var(--gold-dark);box-shadow:0 5px 18px rgba(212,175,55,0.35),0 0 0 3px rgba(212,175,55,0.08)}
+
+
+    footer{background:linear-gradient(135deg, var(--gold-dark) 0%, var(--deep) 100%);color:var(--white);padding:24px 48px;text-align:center;font-size:14px;letter-spacing:0.5px}
+
+
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(62,39,35,0.75);backdrop-filter:blur(4px);padding:20px;z-index:1000}
+    .modal[aria-hidden="false"]{display:flex}
+    .dialog{background:var(--white);padding:32px;border-radius:16px;max-width:520px;width:100%;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+    .close{position:absolute;right:16px;top:16px;border:2px solid var(--gold-dark);background:transparent;font-size:20px;cursor:pointer;color:var(--gold-dark);transition:all 0.2s ease;border-radius:4px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;padding:0}
+    .close:hover{background:var(--gold-dark);color:var(--white)}
+
+
+    .cart-list{min-height:200px;max-height:300px;overflow-y:auto}
+    .cart-line{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid var(--beige-dark);font-size:13px}
+
+
+    /* IMAGE CAROUSEL - AUTO ROTATING */
+    .carousel-section{padding:80px 64px;background:linear-gradient(135deg, #FFFFFF 0%, #FFF8F0 50%, #FFFFFF 100%);position:relative}
+    .carousel-section::before{content:'';position:absolute;top:0;left:0;right:0;height:100%;background:url('data:image/svg+xml,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 10L55 45L90 50L55 55L50 90L45 55L10 50L45 45Z" fill="%23D4AF37" opacity="0.03"/></svg>');pointer-events:none}
+    .carousel-section h3{margin:0 0 50px;font-family:'Playfair Display',serif;font-size:44px;text-align:center;background:linear-gradient(135deg, var(--deep), var(--gold), var(--gold-light));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700;position:relative}
+    .carousel-section h3::before{content:'✦';margin-right:20px;color:var(--gold);opacity:0.7}
+    .carousel-section h3::after{content:'✦';margin-left:20px;color:var(--gold);opacity:0.7}
+    .carousel-container{position:relative;max-width:900px;margin:0 auto;overflow:hidden;border-radius:24px;box-shadow:0 12px 50px rgba(212,175,55,0.3),0 0 0 5px rgba(212,175,55,0.1);border:4px solid var(--gold-light)}
+    .carousel-slides{display:flex;transition:transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)}
+    .carousel-slide{min-width:100%;position:relative;height:350px}
+    .carousel-slide img{width:100%;height:100%;object-fit:cover;display:block}
+    .carousel-slide .slide-caption{position:absolute;left:24px;right:24px;bottom:24px;background:linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.2));color:#fff;padding:16px;border-radius:12px;max-width:60%;box-shadow:0 6px 20px rgba(0,0,0,0.3)}
+    .carousel-slide .slide-caption h4{margin:0;font-size:18px}
+    .carousel-slide .slide-caption p{margin:6px 0 0 0;font-size:14px;opacity:0.95}
+    @media (max-width:1000px){.carousel-slide .slide-caption{max-width:90%;left:20px;right:20px}}
+    .carousel-nav{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10}
+    .carousel-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.85);border:2px solid var(--gold);cursor:pointer;transition:all 0.22s ease;box-shadow:0 1px 6px rgba(0,0,0,0.12)}
+    .carousel-dot.active{background:linear-gradient(135deg, var(--gold), var(--gold-light));transform:scale(1.6);box-shadow:0 6px 18px rgba(212,175,55,0.85),0 0 12px rgba(212,175,55,0.35);border-color:var(--white)}
+    .carousel-arrow{position:absolute;top:50%;transform:translateY(-50%);background:linear-gradient(135deg, var(--gold), var(--gold-light));color:var(--white);border:2px solid var(--white);width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:20px;font-weight:700;z-index:10;box-shadow:0 4px 14px rgba(212,175,55,0.45);transition:all 0.22s ease}
+    .carousel-arrow:hover{background:linear-gradient(135deg, var(--gold-dark), var(--beige-dark));transform:translateY(-50%) scale(1.12);box-shadow:0 6px 22px rgba(212,175,55,0.65),0 0 12px rgba(212,175,55,0.32)}
+    .carousel-arrow.left{left:12px}
+    .carousel-arrow.right{right:12px}
+    @media (max-width:600px){.carousel-arrow{width:40px;height:40px;font-size:18px;border:2px solid rgba(255,255,255,0.9)}.carousel-arrow.left{left:8px}.carousel-arrow.right{right:8px}}
+
+
+    /* Video container to replace carousel when desired */
+    .video-container{position:relative;padding:20px 12px;background:linear-gradient(180deg, rgba(244,228,184,0.08), rgba(255,255,255,0));display:flex;justify-content:center}
+    .video-frame{width:100%;max-width:820px;border-radius:12px;overflow:hidden;position:relative;background:linear-gradient(180deg,#fff,#fff);box-shadow:0 14px 34px rgba(46,29,18,0.10);border:1px solid rgba(212,175,55,0.06)}
+    .video-frame .hero-video{width:100%;height:100%;display:block;aspect-ratio:16/9;object-fit:cover}
+    /* overlay removed — no on-video text */
+    .video-actions{position:absolute;right:16px;top:12px;z-index:12;display:flex;gap:8px}
+    .video-actions .btn.small{padding:6px 10px;border-radius:10px;font-size:12px;background:rgba(255,255,255,0.96);color:var(--deep);border:1px solid rgba(0,0,0,0.06)}
+    @media (max-width:1000px){.video-frame{max-width:700px}.video-frame .hero-video{aspect-ratio:16/9}.video-overlay h4{font-size:18px}}
+    @media (max-width:600px){.video-container{padding:16px 10px}.video-frame{border-radius:10px;max-width:520px}.video-overlay h4{font-size:16px}.video-actions{right:10px;top:10px}.video-actions .btn.small{padding:6px 8px;font-size:11px}}
+
+
+    @media (max-width:1200px){.hero-inner{flex-direction:column;text-align:center}.hero-left{max-width:100%}.hero-products{max-width:600px}}
+    @media (max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.hero{padding:60px 32px;min-height:400px}.hero-left h1{font-size:48px}.carousel-slide{height:400px}.hero-products{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:560px){.grid{grid-template-columns:1fr}.hero-left h1{font-size:36px}.carousel-slide{height:350px}.hero-products{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="card" role="main">
+      <div class="topbar" aria-hidden="true"></div>
+      <header>
+        <div class="brand-container">
+         <img src="imagenes/scentella.PNG" alt="Scentella Logo" class="brand-logo">
+          <div class="brand">Scentella</div>
+        </div>
+        <div class="header-right">
+          <nav aria-label="principal">
+            <a href="inicio-scentella.html" class="active">Inicio</a>
+            <a href="productos-scentella.html">Productos</a>
+            <a href="sobre-nosotros-scentella.html">Sobre Nosotros</a>
+          </nav>
+          <div class="actions">
+            <div id="userArea"></div>
+            <button id="cartToggle" class="cart-btn" aria-label="Abrir carrito">🛒<span id="cartBadge" class="badge" style="display:none">0</span></button>
+            <button id="loginToggle" class="cart-btn" aria-label="Iniciar sesión">👤</button>
+          </div>
+        </div>
+      </header>
+
+
+      <section class="hero">
+        <div class="hero-inner">
+          <div class="hero-left">
+            <h1>Limpieza sin Esfuerzo,<br>Naturalmente Brillante</h1>
+            <p>Productos de limpieza naturales formulados con ingredientes sostenibles para un hogar impecable y saludable.</p>
+            <a href="productos-scentella.html" class="btn gold">Ver Todas las Colecciones</a>
+          </div>
+          <div class="hero-right">
+            <div class="hero-products">
+              <div class="hero-product-card">
+                <img src="imagenes/ambientador.PNG" alt="Ambientador">
+                <h4>Ambientador</h4>
+                <p>Perfuma tu hogar con fragancias naturales</p>
+              </div>
+              <div class="hero-product-card">
+                <img src="imagenes/desinfectante.PNG" alt="Desinfectante">
+                <h4>Desinfectante</h4>
+                <p>Elimina 99.9% de bacterias sin químicos agresivos</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="featured">
+        <h3>Colecciones Destacadas</h3>
+        <div class="grid" id="products">
+          <!-- products injected by JS -->
+        </div>
+      </section>
+
+
+      <!-- Carrusel eliminado — video hero enmarcado -->
+      <section class="carousel-section video-container" aria-label="Video destacado">
+        <div class="video-frame">
+          <video class="hero-video" id="heroVideo" playsinline muted loop preload="metadata" controls poster="imagenes/hero-poster.jpg" aria-label="Video promocional">
+            <source src="Limpieza_Total.mp4" type="video/mp4">
+            Tu navegador no soporta la reproducción de video.
+          </video>
+          <!-- overlay removed -->
+          <div class="video-actions" role="group" aria-label="Controles de video">
+            <button id="videoPlayPause" class="btn small">Pausar</button>
+            <button id="videoMute" class="btn small">Silenciar</button>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="why">
+        <div class="col">
+          <h3>¿Por Qué Elegirnos?</h3>
+          <ul class="feature-list">
+            <li><div class="icon-circle">✓</div><div><strong>Ingredientes Naturales</strong><div class="muted">Formulado con extractos vegetales puros</div></div></li>
+            <li><div class="icon-circle">♻</div><div><strong>Sostenible</strong><div class="muted">Envases ecológicos y abastecimiento responsable</div></div></li>
+            <li><div class="icon-circle">✧</div><div><strong>Limpieza Poderosa</strong><div class="muted">Fórmulas suaves pero efectivas</div></div></li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3>Testimonios de Clientes</h3>
+          <div style="display:flex;gap:10px;align-items:center;margin-top:12px">
+            <img src="https://i.pravatar.cc/150?img=1" alt="avatar" style="width:56px;height:56px;border-radius:50%;object-fit:cover">
+            <div><strong>María Gómez</strong><div class="muted">"Los productos dejaron mi cocina impecable y con un aroma suave."</div></div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;margin-top:12px">
+            <img src="https://i.pravatar.cc/150?img=5" alt="avatar" style="width:56px;height:56px;border-radius:50%;object-fit:cover">
+            <div><strong>Carlos Ruiz</strong><div class="muted">"Sustentables y efectivos — los recomiendo."</div></div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- Newsletter removed as requested -->
+
+
+      <footer>© 2026 Scentella · Todos los Derechos Reservados · Productos de Limpieza Naturales</footer>
+    </div>
+  </div>
+
+
+  <!-- Cart Modal -->
+  <div id="cartModal" class="modal" aria-hidden="true">
+    <div class="dialog">
+      <button class="close" data-close>&times;</button>
+      <h3>Carrito</h3>
+      <div class="cart-list" id="cartList">Tu carrito está vacío</div>
+      <div style="margin-top:12px;text-align:right;font-size:14px"><strong>TOTAL: <span id="cartTotal">$0.00</span></strong></div>
+      <div style="margin-top:12px;text-align:right"><button id="checkoutBtn" class="btn" style="background:linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);color:var(--white);padding:12px 24px;border:0;border-radius:50px;cursor:pointer;font-weight:600">Pagar</button></div>
+    </div>
+  </div>
+
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal" aria-hidden="true">
+    <div class="dialog" role="dialog" aria-modal="true">
+      <button class="close" data-close>&times;</button>
+      <h3 id="loginTitle">Iniciar sesión</h3>
+      <div id="authForms">
+        <form id="loginForm">
+          <label style="display:block;margin-bottom:8px">Email <input name="email" type="email" required style="width:100%;padding:12px;margin-top:6px;border:2px solid var(--beige-dark);border-radius:8px"></label>
+          <label style="display:block;margin-bottom:8px">Contraseña <input name="pass" type="password" required style="width:100%;padding:12px;margin-top:6px;border:2px solid var(--beige-dark);border-radius:8px"></label>
+          <div style="display:flex;gap:8px;margin-top:16px"><button class="btn" style="background:linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);color:var(--white);padding:12px 24px;border:0;border-radius:50px;cursor:pointer;font-weight:600">Entrar</button><button type="button" id="showRegister" class="btn" style="background:transparent;color:var(--gold-dark);border:2px solid var(--gold-dark);padding:12px 24px;border-radius:50px;cursor:pointer;font-weight:600">Crear cuenta</button></div>
+        </form>
+        <form id="registerForm" style="display:none">
+          <label style="display:block;margin-bottom:8px">Nombre <input name="name" required style="width:100%;padding:12px;margin-top:6px;border:2px solid var(--beige-dark);border-radius:8px"></label>
+          <label style="display:block;margin-bottom:8px">Email <input name="email" type="email" required style="width:100%;padding:12px;margin-top:6px;border:2px solid var(--beige-dark);border-radius:8px"></label>
+          <label style="display:block;margin-bottom:8px">Contraseña <input name="pass" type="password" required style="width:100%;padding:12px;margin-top:6px;border:2px solid var(--beige-dark);border-radius:8px"></label>
+          <div style="display:flex;gap:8px;margin-top:16px"><button class="btn" style="background:linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);color:var(--white);padding:12px 24px;border:0;border-radius:50px;cursor:pointer;font-weight:600">Crear</button><button type="button" id="showLogin" class="btn" style="background:transparent;color:var(--gold-dark);border:2px solid var(--gold-dark);padding:12px 24px;border-radius:50px;cursor:pointer;font-weight:600">Volver</button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    (function(){
+      const header = document.querySelector('header');
+      const card = document.querySelector('.card');
+      if(!header) return;
+      let ticking = false;
+
+
+      function updateHeaderOffset(){
+        const h = Math.round(header.getBoundingClientRect().height);
+        if(card) card.style.paddingTop = h + 'px';
+        document.documentElement.style.setProperty('--header-offset', h + 'px');
+      }
+
+
+      function onScroll(){
+        const scrollY = window.scrollY || window.pageYOffset;
+        if(!ticking){
+          window.requestAnimationFrame(()=>{
+            if(scrollY > 20){
+              header.classList.add('scrolled');
+            } else {
+              header.classList.remove('scrolled');
+            }
+            updateHeaderOffset();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }
+
+
+      window.addEventListener('scroll', onScroll, {passive:true});
+      window.addEventListener('resize', ()=>{ updateHeaderOffset(); }, {passive:true});
+      window.addEventListener('DOMContentLoaded', updateHeaderOffset);
+      // safety: small delay in case fonts/images change header height
+      setTimeout(updateHeaderOffset, 60);
+      // run once now
+      updateHeaderOffset();
+    })();
+  </script>
+
+
+  <script>
+    // Simple frontend-only auth + cart using localStorage. Not secure for production.
+    const PRODUCTS = [
+      {id:1,name:'Ambientador',img:'imagenes/ambientador.png'},
+      {id:2,name:'Jabón Lavaplatos',img:'imagenes/jabonlavaplatos.png'},
+      {id:3,name:'Desinfectante',img:'imagenes/desinfectante.png'}
+    ];
+
+
+    // helpers
+    const qs = s=>document.querySelector(s), qa=s=>document.querySelectorAll(s);
+
+
+    // render products
+    function renderProducts(){
+      const el = qs('#products'); el.innerHTML='';
+      PRODUCTS.forEach(p=>{
+        const d = document.createElement('div'); d.className='product';
+        d.innerHTML=`<img src="${p.img}" alt="${p.name}"><h4>${p.name}</h4><a href='productos.html' class='btn'>Ver colección</a>`;
+        el.appendChild(d);
+      });
+    }
+
+
+    // cart state
+    const CART_KEY='scentella_cart_v1';
+    let cart = JSON.parse(localStorage.getItem(CART_KEY)||'[]');
+    function saveCart(){localStorage.setItem(CART_KEY,JSON.stringify(cart));}
+    function cartCount(){return cart.reduce((s,i)=>s+i.qty,0)}
+    function updateBadge(){const b=qs('#cartBadge'); if(cartCount()>0){b.style.display='inline-block';b.textContent=cartCount()}else b.style.display='none'}
+    function updateCartModal(){
+      const list=qs('#cartList');
+      if(cart.length===0){
+        list.innerHTML='<p>Tu carrito está vacío.</p>';
+        qs('#cartTotal').textContent='$0.00';
+        return;
+      }
+      list.innerHTML='';
+      let total=0;
+      cart.forEach((it,idx)=>{
+        total+=it.price*it.qty;
+        const line=document.createElement('div');
+        line.className='cart-line';
+        line.innerHTML=`<div>${it.name} x ${it.qty}</div><div>$${(it.price*it.qty).toFixed(2)} <button data-idx='${idx}' style="background:var(--gold);color:var(--white);border:0;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:12px">Eliminar</button></div>`;
+        list.appendChild(line);
+      });
+      qs('#cartTotal').textContent='$'+total.toFixed(2);
+      qa('[data-idx]').forEach(b=>b.addEventListener('click',e=>{
+        const i=Number(e.target.getAttribute('data-idx'));
+        if(!isNaN(i)){
+          cart.splice(i,1);
+          saveCart();
+          updateCartModal();
+          updateBadge();
+        }
+      }));
+    }
+    function showToast(message){
+      let toast = qs('.toast');
+      if(!toast){
+        toast = document.createElement('div');
+        toast.className = 'toast';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+
+// add handlers - removed data-add since using links now
+
+
+    // modals
+    function openModal(sel){const m=qs(sel); if(m){m.setAttribute('aria-hidden','false');}}
+    function closeModal(sel){const m=qs(sel); if(m){m.setAttribute('aria-hidden','true');}}
+    qa('[data-close]').forEach(b=>b.addEventListener('click',e=>{ const m=e.target.closest('.modal'); if(m) m.setAttribute('aria-hidden','true'); }));
+    // toggles
+    qs('#cartToggle').addEventListener('click',()=>{ updateCartModal(); openModal('#cartModal'); });
+    qs('#loginToggle').addEventListener('click',()=>{ openModal('#loginModal'); });
+    // close on background click
+    qa('.modal').forEach(m=>{ m.addEventListener('click',e=>{ if(e.target===m) m.setAttribute('aria-hidden','true'); });});
+
+
+    // checkout placeholder
+    qs('#checkoutBtn').addEventListener('click',()=>{ cart=[]; saveCart(); updateCartModal(); updateBadge(); closeModal('#cartModal'); showToast('¡Gracias por tu compra!'); });
+
+
+    // auth (localStorage)
+    const USERS_KEY='scentella_users_v1';
+    function getUsers(){return JSON.parse(localStorage.getItem(USERS_KEY)||'{}')}
+    function saveUsers(u){localStorage.setItem(USERS_KEY,JSON.stringify(u))}
+    function setUserSession(user){localStorage.setItem('scentella_user',JSON.stringify(user)); renderUser();}
+    function getUserSession(){return JSON.parse(localStorage.getItem('scentella_user')||'null')}
+    function logout(){localStorage.removeItem('scentella_user'); renderUser();}
+
+
+    // forms
+    qs('#showRegister').addEventListener('click',()=>{qs('#loginForm').style.display='none';qs('#registerForm').style.display='block';qs('#loginTitle').textContent='Crear cuenta';});
+    qs('#showLogin').addEventListener('click',()=>{qs('#loginForm').style.display='block';qs('#registerForm').style.display='none';qs('#loginTitle').textContent='Iniciar sesión';});
+
+
+    qs('#registerForm').addEventListener('submit',e=>{
+      e.preventDefault(); const fm=new FormData(e.target); const name=fm.get('name'); const email=fm.get('email'); const pass=fm.get('pass'); const users=getUsers(); if(users[email]){showToast('Ya existe un usuario con ese email');return} users[email]={name,pass:btoa(pass)}; saveUsers(users); setUserSession({email,name}); closeModal('#loginModal'); showToast('Cuenta creada exitosamente');
+    });
+
+
+    qs('#loginForm').addEventListener('submit',e=>{
+      e.preventDefault(); const fm=new FormData(e.target); const email=fm.get('email'); const pass=fm.get('pass'); const users=getUsers(); if(!users[email] || users[email].pass!==btoa(pass)){showToast('Credenciales incorrectas');return} setUserSession({email,name:users[email].name}); closeModal('#loginModal'); showToast('Bienvenido ' + users[email].name);
+    });
+
+
+    function renderUser(){ const area=qs('#userArea'); const user=getUserSession(); area.innerHTML=''; if(user){ const div=document.createElement('div'); div.style.display='flex'; div.style.alignItems='center'; div.style.gap='8px'; div.innerHTML=`<strong style="color:var(--gold-dark)">${user.name}</strong> <button id='logoutBtn' class='btn' style="background:transparent;border:1px solid var(--gold);color:var(--gold);padding:6px 16px;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600">Cerrar</button>`; area.appendChild(div); qs('#logoutBtn')?.addEventListener('click',logout); } else { area.innerHTML=''; }
+    }
+
+
+    // newsletter removed on this page
+
+
+    // AUTO-ROTATING IMAGE CAROUSEL (mejorado)
+    const CAROUSEL_SLIDES = [
+      {img:'imagenes/chicaramdon.avif', title:'Colección Serenidad', desc:'Aromas naturales para tu hogar'},
+      {img:'imagenes/cjiga.avif', title:'Colección Frescura', desc:'Limpieza profunda y duradera'},
+      {img:'imagenes/chicaramdon.avif', title:'Colección Elegancia', desc:'Lujo en cada rincón'},
+      {img:'imagenes/cjiga.avif', title:'Colección Natural', desc:'Ingredientes 100% orgánicos'}
+    ];
+
+
+    let currentSlide = 0;
+    let autoplayInterval = null;
+    let isPaused = false;
+    let resumeTimeout = null;
+    const AUTOPLAY_DELAY = 4000;
+
+
+    function renderCarousel(){
+      const slides = qs('#carouselSlides');
+      const nav = qs('#carouselNav');
+      const container = qs('.carousel-container');
+      if(!slides || !nav) return;
+
+
+      slides.innerHTML = '';
+      nav.innerHTML = '';
+
+
+      CAROUSEL_SLIDES.forEach((slide, idx)=>{
+        const slideDiv = document.createElement('div');
+        slideDiv.className = 'carousel-slide';
+        slideDiv.setAttribute('role','group');
+        slideDiv.setAttribute('aria-roledescription','slide');
+        slideDiv.setAttribute('aria-label', `${idx+1} of ${CAROUSEL_SLIDES.length}: ${slide.title}`);
+        slideDiv.innerHTML = `<img src="${slide.img}" alt="${slide.title}" loading="lazy"><div class="slide-caption"><h4>${slide.title}</h4><p>${slide.desc}</p></div>`;
+        slides.appendChild(slideDiv);
+
+
+        const dot = document.createElement('div');
+        dot.className = 'carousel-dot' + (idx === 0 ? ' active' : '');
+        dot.setAttribute('role','button');
+        dot.setAttribute('aria-label', `Ir a ${slide.title}`);
+        dot.setAttribute('tabindex','0');
+        dot.addEventListener('click', () => goToSlide(idx));
+        dot.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goToSlide(idx); } });
+        nav.appendChild(dot);
+      });
+
+
+      if(container) container.setAttribute('tabindex','0');
+      updateCarouselPosition();
+    }
+
+
+    function updateCarouselPosition(){
+      const slides = qs('#carouselSlides');
+      if(slides) slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+      qa('.carousel-dot').forEach((dot, idx)=>dot.classList.toggle('active', idx === currentSlide));
+    }
+
+
+    function goToSlide(index){
+      currentSlide = index;
+      updateCarouselPosition();
+      resetAutoplay();
+    }
+
+
+    function nextSlide(){ currentSlide = (currentSlide + 1) % CAROUSEL_SLIDES.length; updateCarouselPosition(); }
+    function prevSlide(){ currentSlide = (currentSlide - 1 + CAROUSEL_SLIDES.length) % CAROUSEL_SLIDES.length; updateCarouselPosition(); }
+
+
+    function startAutoplay(){ if(autoplayInterval) clearInterval(autoplayInterval); autoplayInterval = setInterval(()=>{ if(!isPaused) nextSlide(); }, AUTOPLAY_DELAY); }
+    function pauseAutoplay(){ isPaused = true; if(autoplayInterval) { clearInterval(autoplayInterval); autoplayInterval = null; } if(resumeTimeout) clearTimeout(resumeTimeout); }
+    function resumeAutoplayDelayed(delay=AUTOPLAY_DELAY*1.5){ if(resumeTimeout) clearTimeout(resumeTimeout); resumeTimeout = setTimeout(()=>{ isPaused = false; startAutoplay(); }, delay); }
+    function resetAutoplay(){ pauseAutoplay(); resumeAutoplayDelayed(); }
+
+
+    // arrows
+    qs('#carouselNext')?.addEventListener('click', ()=>{ nextSlide(); resetAutoplay(); });
+    qs('#carouselPrev')?.addEventListener('click', ()=>{ prevSlide(); resetAutoplay(); });
+
+
+    // pause on hover / focus
+    const carouselEl = qs('.carousel-container');
+    carouselEl?.addEventListener('mouseenter', ()=>{ pauseAutoplay(); });
+    carouselEl?.addEventListener('mouseleave', ()=>{ isPaused = false; startAutoplay(); });
+    carouselEl?.addEventListener('focusin', ()=>{ pauseAutoplay(); });
+    carouselEl?.addEventListener('focusout', ()=>{ resumeAutoplayDelayed(); });
+
+
+    // keyboard navigation when container focused
+    carouselEl?.addEventListener('keydown', (e)=>{ if(e.key === 'ArrowLeft') { prevSlide(); resetAutoplay(); } if(e.key === 'ArrowRight') { nextSlide(); resetAutoplay(); } });
+
+
+    // touch / swipe support
+    let touchStartX = 0;
+    carouselEl?.addEventListener('touchstart', (e)=>{ touchStartX = e.changedTouches[0].screenX; }, {passive:true});
+    carouselEl?.addEventListener('touchend', (e)=>{ const touchEndX = e.changedTouches[0].screenX; const dist = touchEndX - touchStartX; if(Math.abs(dist) > 50){ if(dist > 0) { prevSlide(); } else { nextSlide(); } resetAutoplay(); } }, {passive:true});
+
+
+    // init
+    renderProducts();
+    renderCarousel();
+    startAutoplay();
+    updateBadge();
+    renderUser();
+
+
+    // Hero video controls (play/pause, mute)
+    (function(){
+      var vid = document.getElementById('heroVideo');
+      var btn = document.getElementById('videoPlayPause');
+      var mute = document.getElementById('videoMute');
+      if(!vid) return;
+      vid.muted = true;
+      vid.autoplay = true;
+      vid.loop = true;
+      var updatePlayLabel = function(){ if(!btn) return; btn.textContent = vid.paused ? 'Reproducir' : 'Pausar'; };
+      var updateMuteLabel = function(){ if(!mute) return; mute.textContent = vid.muted ? 'Silenciar' : 'Activar sonido'; };
+      if(btn) btn.addEventListener('click', function(e){ if(vid.paused){ vid.play().catch(function(){}); } else { vid.pause(); } updatePlayLabel(); });
+      if(mute) mute.addEventListener('click', function(e){ vid.muted = !vid.muted; updateMuteLabel(); });
+      // attempt autoplay gracefully
+      vid.play().then(updatePlayLabel).catch(updatePlayLabel);
+      updateMuteLabel();
+    })();
+  </script>
+</body>
+</html>
+
+

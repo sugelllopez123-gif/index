@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Scentella — Sobre Nosotros</title>
+  <style>
+    :root{--beige:#F5EFE7;--beige-dark:#E8DCC4;--gold:#D4AF37;--gold-dark:#B8952E;--gold-light:#F4E4B8;--deep:#3E2723;--white:#FFFFFF;--muted:#8B7355;--sheet-w:1000px}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Lato','Segoe UI',system-ui,Arial,sans-serif;background:url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><path d="M30 0L35 25L60 30L35 35L30 60L25 35L0 30L25 25Z" fill="%23D4AF37" opacity="0.03"/></svg>'),linear-gradient(135deg, #FFF8F0 0%, #F5EFE7 25%, #E8DCC4 50%, #F4E4B8 75%, #FFF8F0 100%);color:var(--deep);-webkit-font-smoothing:antialiased;background-attachment:fixed}
+    .page{min-height:100vh;display:flex;align-items:stretch;justify-content:center;padding:0}
+    .card{width:100%;max-width:none;background:var(--white);box-shadow:0 20px 60px rgba(62,39,35,0.12);overflow:hidden;border-radius:0;padding-top:var(--header-offset,96px);transition:padding-top 180ms ease}
+    .topbar{height:8px;background:linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 25%, var(--beige) 50%, var(--gold-light) 75%, var(--gold-dark) 100%);box-shadow:0 2px 8px rgba(212,175,55,0.4)}
+    header{display:flex;align-items:center;justify-content:space-between;padding:24px 64px;background:linear-gradient(180deg, #FFFFFF 0%, #FFF8F0 100%);border-bottom:3px solid transparent;border-image:linear-gradient(90deg, var(--gold), var(--gold-light), var(--beige), var(--gold-light), var(--gold)) 1;box-shadow:0 4px 20px rgba(212,175,55,0.15);position:fixed;left:0;right:0;top:0;z-index:1000;transition:padding 220ms ease, box-shadow 220ms ease, background-color 220ms ease}
+    header::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:3px;background:linear-gradient(90deg, transparent, var(--gold-light), transparent);opacity:0.5}
+    /* compact header when scrolled (smaller) */
+    header.scrolled{padding:6px 24px;box-shadow:0 8px 24px rgba(0,0,0,0.10);background:rgba(255,255,255,0.96);backdrop-filter:blur(5px)}
+    header.scrolled .brand{font-size:20px}
+    header.scrolled .brand-logo{width:44px;height:44px;padding:4px;}
+    .header-right{display:flex;align-items:center;gap:24px}
+    .brand-container{display:flex;align-items:center;gap:12px}
+    .brand-logo{width:60px;height:60px;object-fit:contain;border-radius:50%;padding:8px;background:linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--beige-dark) 100%);box-shadow:0 6px 20px rgba(212,175,55,0.5),inset 0 2px 4px rgba(255,255,255,0.5);border:3px solid var(--white);transition:all 0.3s ease;animation:logoGlow 3s ease-in-out infinite}
+    @keyframes logoGlow{0%,100%{box-shadow:0 6px 20px rgba(212,175,55,0.5),inset 0 2px 4px rgba(255,255,255,0.5)}50%{box-shadow:0 8px 30px rgba(212,175,55,0.8),inset 0 2px 8px rgba(255,255,255,0.7),0 0 20px rgba(212,175,55,0.4)}}
+    .brand-logo:hover{transform:rotate(360deg) scale(1.15);box-shadow:0 10px 40px rgba(212,175,55,0.9),0 0 30px rgba(212,175,55,0.6)}
+    .brand{font-family:'Playfair Display',serif;font-size:36px;letter-spacing:3px;background:linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold-dark) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;text-shadow:2px 2px 4px rgba(212,175,55,0.3);position:relative;filter:drop-shadow(0 2px 8px rgba(212,175,55,0.3))}
+    nav{display:flex;gap:32px;align-items:center}
+    nav a{font-size:15px;color:var(--deep);text-decoration:none;font-weight:600;letter-spacing:0.8px;transition:all 0.3s ease;position:relative;padding:8px 16px;border-radius:20px;background:transparent}
+    nav a::before{content:'✦';position:absolute;left:-8px;opacity:0;color:var(--gold);transition:all 0.3s ease;font-size:12px}
+    nav a:hover{color:var(--gold);background:linear-gradient(135deg, rgba(212,175,55,0.1), rgba(232,168,124,0.1));transform:translateY(-2px)}
+    nav a:hover::before{opacity:1;left:4px}
+    nav a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:3px;background:linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold-dark));transition:width 0.3s ease;border-radius:3px}
+    nav a:hover::after{width:100%}
+    nav a.active{color:var(--gold);font-weight:700}
+    nav a.active::after{width:100%}
+    .actions{display:flex;gap:16px;align-items:center}
+    .cart-btn{position:relative;background:transparent;border:0;font-size:20px;cursor:pointer;transition:transform 0.2s ease;color:var(--deep)}
+    .cart-btn:hover{transform:scale(1.1);color:var(--gold)}
+    .badge{position:absolute;top:-8px;right:-10px;background:linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);color:var(--white);font-size:11px;padding:3px 7px;border-radius:12px;font-weight:700;box-shadow:0 2px 8px rgba(212,175,55,0.4)}
+
+
+    /* Hero Section - Minimal Tipográfico (Opción D) */
+    .hero{display:flex;align-items:center;justify-content:center;padding:140px 40px;background:linear-gradient(180deg,#FFF9F6 0%, #FFF6F0 60%);text-align:center;border-top:6px solid rgba(212,175,55,0.9)}
+    .hero .hero-card{max-width:920px;padding:0;margin:0;background:transparent}
+    .hero .kicker{display:block;color:var(--gold-dark);font-weight:700;letter-spacing:1px;margin-bottom:18px;font-size:14px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:84px;line-height:0.96;margin:0 0 18px;background:linear-gradient(135deg,var(--deep),var(--gold-dark));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+    .hero p{color:var(--muted);font-size:20px;line-height:1.9;margin:0 auto 28px;max-width:760px}
+    .hero .hero-cta{display:flex;gap:14px;justify-content:center}
+    .hero .btn{padding:14px 32px;border-radius:999px}
+    .hero .btn.secondary{background:transparent;border:2px solid var(--beige-dark);color:var(--deep)}
+    @media (max-width:1000px){.hero{padding:80px 24px}.hero h1{font-size:44px}.hero p{font-size:16px}}
+
+
+    /* Page Hero */
+    .page-hero{padding:120px 64px 100px;background:linear-gradient(135deg, #FFE5CC 0%, #F5EFE7 25%, #F4E4B8 50%, #FFE5CC 75%, #F5EFE7 100%);text-align:center;position:relative;border-bottom:4px solid var(--gold)}
+    .page-hero::before{content:'✿';position:absolute;top:30px;left:50px;font-size:100px;color:var(--gold);opacity:0.08;transform:rotate(15deg)}
+    .page-hero::after{content:'✿';position:absolute;bottom:30px;right:50px;font-size:100px;color:var(--gold);opacity:0.08;transform:rotate(-15deg)}
+    .page-hero h1{font-family:'Playfair Display',serif;font-size:64px;margin:0 0 30px;background:linear-gradient(135deg, var(--deep), var(--gold-dark), var(--gold-light), var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700;position:relative;text-shadow:2px 2px 0 rgba(212,175,55,0.1)}
+    .page-hero h1::before{content:'✦';margin-right:20px;color:var(--gold);opacity:0.7}
+    .page-hero h1::after{content:'✦';margin-left:20px;color:var(--gold);opacity:0.7}
+    .page-hero p{font-size:20px;color:var(--muted);max-width:700px;margin:0 auto;line-height:1.8}
+
+
+    /* About Content */
+    .about-content{padding:80px 48px;background:linear-gradient(180deg, #FFFFFF 0%, #FFF8F0 40%, #FFFFFF 100%);position:relative}
+    .about-content::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url('data:image/svg+xml,<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" r="2" fill="%23D4AF37" opacity="0.06"/></svg>');pointer-events:none}
+    .about-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:32px;align-items:start}
+    .about-card{background:linear-gradient(180deg,#FFFDFB 0%, #FFF8F0 100%);padding:28px;border-radius:20px;border:1px solid rgba(212,175,55,0.12);box-shadow:0 8px 30px rgba(212,175,55,0.06);display:flex;gap:20px;align-items:flex-start}
+    .about-card .thumb{width:160px;height:140px;border-radius:12px;overflow:hidden;flex-shrink:0;border:3px solid var(--gold-light);box-shadow:0 8px 24px rgba(62,39,35,0.06)}
+    .about-card .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .about-card .content{flex:1}
+    .about-card h2{font-family:'Playfair Display',serif;font-size:28px;margin:0 0 8px;background:linear-gradient(135deg,var(--deep),var(--gold-dark));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
+    .about-card .meta{display:flex;gap:12px;align-items:center;margin-bottom:10px}
+    .about-card .meta .icon{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,var(--gold-light),var(--gold));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:800;box-shadow:0 6px 18px rgba(212,175,55,0.12)}
+    .about-card p{font-size:15px;line-height:1.7;color:var(--muted);margin:0}
+    @media (max-width:1000px){.about-grid{grid-template-columns:1fr}.about-card{flex-direction:column}.about-card .thumb{width:100%;height:220px}}
+
+
+    /* Mission, Vision & Values Section */
+    .mvv-section{padding:60px 48px;background:linear-gradient(135deg, #F4E4B8 0%, #FFE5CC 25%, #F5EFE7 50%, #E8DCC4 75%, #F4E4B8 100%);position:relative;border-top:4px solid var(--gold);border-bottom:4px solid var(--gold);overflow:hidden}
+    .mvv-section::before{content:'✿';position:absolute;top:50px;left:80px;font-size:150px;color:var(--gold);opacity:0.05;transform:rotate(25deg);animation:pulse 4s ease-in-out infinite}
+    .mvv-section::after{content:'✿';position:absolute;bottom:50px;right:80px;font-size:150px;color:var(--gold);opacity:0.05;transform:rotate(-25deg);animation:pulse 4s ease-in-out infinite;animation-delay:2s}
+    .mvv-title{font-family:'Playfair Display',serif;font-size:50px;text-align:center;margin:0 0 70px;background:linear-gradient(135deg, var(--deep), var(--gold), var(--gold-light), var(--gold-dark));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700;position:relative}
+    .mvv-container{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:1200px;margin:0 auto;position:relative;z-index:1}
+    .mvv-card{background:linear-gradient(135deg, #FFFFFF 0%, #FFF8F0 100%);padding:30px 22px;border-radius:18px;border:1px solid rgba(212,175,55,0.14);box-shadow:0 10px 30px rgba(212,175,55,0.08);position:relative;overflow:hidden;transition:all 0.3s ease;text-align:center;display:flex;flex-direction:column;align-items:center;min-height:260px}
+    .mvv-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at top, rgba(212,175,55,0.1), transparent);opacity:0;transition:opacity 0.4s ease}
+    .mvv-card:hover{transform:translateY(-12px);box-shadow:0 25px 70px rgba(212,175,55,0.45),0 0 0 6px rgba(212,175,55,0.15);border-color:var(--gold)}
+    .mvv-card:hover::before{opacity:1}
+    .mvv-icon{font-size:46px;margin-bottom:18px;display:inline-block;animation:float 3s ease-in-out infinite;display:flex;align-items:center;justify-content:center;width:86px;height:86px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#fff;box-shadow:0 10px 30px rgba(212,175,55,0.12)}
+    .mvv-card:nth-child(2) .mvv-icon{animation-delay:0.5s}
+    .mvv-card:nth-child(3) .mvv-icon{animation-delay:1s}
+    .mvv-card h3{font-family:'Playfair Display',serif;font-size:22px;margin:12px 0 10px;background:linear-gradient(135deg, var(--deep), var(--gold-dark));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
+    .mvv-card p{color:var(--muted);line-height:1.8;margin:0;font-size:15px}
+    .values-list{display:flex;flex-direction:column;gap:16px;margin-top:10px;text-align:left}
+    .value-item{display:flex;align-items:center;gap:12px;font-size:16px;color:var(--deep);font-weight:600;padding:10px 16px;background:linear-gradient(135deg, rgba(212,175,55,0.08), rgba(212,175,55,0.03));border-radius:12px;border-left:3px solid var(--gold);transition:all 0.3s ease}
+    .value-item:hover{background:linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.08));transform:translateX(5px);border-left-width:4px}
+    .value-emoji{font-size:24px;display:inline-block}
+    .value-badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;justify-content:center}
+    .value-badge{background:linear-gradient(135deg, rgba(212,175,55,0.08), rgba(212,175,55,0.03));padding:8px 12px;border-radius:999px;font-weight:700;color:var(--deep);border:1px solid rgba(212,175,55,0.08);box-shadow:0 6px 18px rgba(62,39,35,0.04);font-size:14px}
+    .mvv-text{color:var(--muted);line-height:1.7;margin:0;font-size:15px;max-width:34ch}
+    @keyframes pulse{0%, 100%{opacity:0.05;transform:scale(1) rotate(25deg)}50%{opacity:0.1;transform:scale(1.1) rotate(25deg)}}
+    @keyframes float{0%, 100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+    @keyframes bounce{0%, 100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+
+    /* CTA Section */
+    .cta-section{padding:100px 64px;background:linear-gradient(135deg, #FFE5CC 0%, #F4E4B8 25%, #F5EFE7 50%, #F4E4B8 75%, #FFE5CC 100%);text-align:center;position:relative;border-top:4px solid var(--gold);border-bottom:4px solid var(--gold)}
+    .cta-section::before{content:'✦';position:absolute;top:40px;left:60px;font-size:100px;color:var(--gold);opacity:0.1;animation:spin 20s linear infinite}
+    .cta-section::after{content:'✦';position:absolute;bottom:40px;right:60px;font-size:100px;color:var(--gold);opacity:0.1;animation:spin 20s linear infinite reverse}
+    @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+    .cta-section h2{font-family:'Playfair Display',serif;font-size:50px;margin:0 0 30px;background:linear-gradient(135deg, var(--deep), var(--gold), var(--gold-light), var(--gold-dark));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700;position:relative;z-index:1}
+    .cta-section h2::before{content:'❤️';margin-right:20px;font-size:46px}
+    .cta-section h2::after{content:'❤️';margin-left:20px;font-size:46px}
+    .cta-section p{font-size:18px;color:var(--muted);margin:0 0 32px;max-width:600px;margin-left:auto;margin-right:auto}
+    .btn{display:inline-block;padding:14px 32px;border-radius:50px;border:2px solid transparent;cursor:pointer;font-weight:600;font-size:15px;letter-spacing:0.5px;transition:all 0.3s ease;text-decoration:none;text-align:center}
+    .btn.gold{background:linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);color:var(--white);box-shadow:0 6px 20px rgba(212,175,55,0.4);border:2px solid var(--gold)}
+    .btn.gold:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(212,175,55,0.6);background:linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100())}
+
+
+    footer{background:linear-gradient(135deg, var(--gold-dark) 0%, var(--deep) 100%);color:var(--white);padding:24px 48px;text-align:center;font-size:14px;letter-spacing:0.5px}
+
+
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(62,39,35,0.75);backdrop-filter:blur(4px);padding:20px;z-index:1000}
+    .modal[aria-hidden="false"]{display:flex}
+    .dialog{background:var(--white);padding:32px;border-radius:16px;max-width:520px;width:100%;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+    .close{position:absolute;right:16px;top:16px;border:2px solid var(--gold-dark);background:transparent;font-size:20px;cursor:pointer;color:var(--gold-dark);transition:all 0.2s ease;border-radius:4px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;padding:0}
+    .close:hover{background:var(--gold-dark);color:var(--white)}
+    .cart-list{min-height:200px;max-height:300px;overflow-y:auto}
+    .cart-line{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid var(--beige-dark);font-size:13px}
+
+
+    /* Toast Notification */
+    .toast{position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);color:var(--white);padding:16px 24px;border-radius:50px;box-shadow:0 8px 24px rgba(212,175,55,0.5);font-weight:600;font-size:15px;z-index:2000;transform:translateY(100px);opacity:0;transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1);display:flex;align-items:center;gap:12px}
+    .toast.show{transform:translateY(0);opacity:1}
+    .toast::before{content:'✓';font-size:20px;font-weight:700}
+
+
+    @media (max-width:1200px){.mvv-container{grid-template-columns:1fr;gap:20px}.mvv-card{min-height:auto}}
+    @media (max-width:1000px){.about-section{flex-direction:column!important}.hero-inner{flex-direction:column;align-items:flex-start;padding-left:40px;padding-right:40px}.hero-right{justify-content:center;margin-top:28px}.hero-portrait{width:320px;height:320px}}
+    @media (max-width:700px){.page-hero h1{font-size:40px}.about-text h2{font-size:32px}.mvv-title{font-size:36px}.cta-section h2{font-size:32px}.mvv-card h3{font-size:26px}.mvv-card{padding:40px 30px}.hero-portrait{display:none}.hero-left h1{font-size:40px}}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="card" role="main">
+      <div class="topbar" aria-hidden="true"></div>
+      <header>
+        <div class="brand-container">
+          <img src="imagenes/scentella.PNG" alt="Scentella Logo" class="brand-logo">
+          <div class="brand">Scentella</div>
+        </div>
+        <div class="header-right">
+          <nav aria-label="principal">
+            <a href="inicio-scentella.html">Inicio</a>
+            <a href="productos-scentella.html">Productos</a>
+            <a href="sobre-nosotros-scentella.html" class="active">Sobre Nosotros</a>
+          </nav>
+          <div class="actions">
+            <div id="userArea"></div>
+            <button id="cartToggle" class="cart-btn" aria-label="Abrir carrito">🛒<span id="cartBadge" class="badge" style="display:none">0</span></button>
+            <button id="loginToggle" class="cart-btn" aria-label="Iniciar sesión">👤</button>
+          </div>
+        </div>
+      </header>
+
+
+      <section class="hero" aria-hidden="false">
+        <div class="hero-card">
+          <span class="kicker">Nuestra Esencia</span>
+          <h1>Sobre Nosotros</h1>
+          <p>En Scentella creemos en la limpieza limpia: fórmulas naturales, envases responsables y resultados en los que puedes confiar. Hacemos productos para hogares que cuidan a su gente y al planeta.</p>
+          <div class="hero-cta">
+            <a href="productos-scentella.html" class="btn gold">Ver Productos</a>
+            <a href="contacto.html" class="btn secondary">Contáctanos</a>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="about-content">
+        <div class="about-grid">
+          <article class="about-card">
+            <div class="thumb"><img src="imagenes/piedras_zen_natural.png" alt="Nuestra historia"></div>
+            <div class="content">
+              <div class="meta"><div class="icon">🕰</div><div class="label">Nuestra Historia</div></div>
+              <h2>Nuestra Historia</h2>
+              <p>Scentella nació de la pasión por crear productos de limpieza que realmente funcionen sin comprometer la salud de nuestras familias o el medio ambiente. Comenzamos en 2020 con la visión de fórmulas naturales, efectivas y seguras.</p>
+            </div>
+          </article>
+
+
+          <article class="about-card">
+            <div class="thumb"><img src="imagenes/aceites_esenciales_natural.png" alt="Nuestro compromiso"></div>
+            <div class="content">
+              <div class="meta"><div class="icon">🌱</div><div class="label">Nuestro Compromiso</div></div>
+              <h2>Nuestro Compromiso</h2>
+              <p>Cada producto Scentella está formulado con ingredientes naturales seleccionados. No usamos químicos agresivos ni fragancias sintéticas — además trabajamos con envases más responsables y procesos transparentes.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+
+      <!-- Misión, Visión y Valores (actualizado) -->
+      <section class="mvv-section" aria-labelledby="mvvHeading">
+        <h2 id="mvvHeading" class="mvv-title">✦ Misión, Visión y Valores ✦</h2>
+        <div class="mvv-container">
+          <div class="mvv-card" role="article" aria-labelledby="misionTitle">
+            <div class="mvv-icon" aria-hidden="true">🎯</div>
+            <h3 id="misionTitle">Misión</h3>
+            <p class="mvv-text">Ofrecer productos de limpieza naturales y efectivos que cuiden la salud de las familias y protejan el medio ambiente, sin comprometer la calidad ni el rendimiento.</p>
+          </div>
+
+
+          <div class="mvv-card" role="article" aria-labelledby="visionTitle">
+            <div class="mvv-icon" aria-hidden="true">🌟</div>
+            <h3 id="visionTitle">Visión</h3>
+            <p class="mvv-text">Ser la marca líder en productos de limpieza sostenibles, transformando hogares en espacios más saludables y contribuyendo a un planeta más limpio para las futuras generaciones.</p>
+          </div>
+
+
+          <div class="mvv-card values-card" role="article" aria-labelledby="valuesTitle">
+            <div class="mvv-icon" aria-hidden="true">💎</div>
+            <h3 id="valuesTitle">Valores</h3>
+            <div class="value-badges" aria-live="polite">
+              <span class="value-badge">🌿 Natural</span>
+              <span class="value-badge">♻️ Sostenible</span>
+              <span class="value-badge">✨ Efectivo</span>
+              <span class="value-badge">❤️ Honestidad</span>
+              <span class="value-badge">🤝 Compromiso</span>
+              <span class="value-badge">💡 Innovación</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="cta-section">
+        <h2>Únete a Nuestra Familia</h2>
+        <p>Descubre la diferencia de limpiar con productos naturales que realmente funcionan. Tu hogar y el planeta te lo agradecerán.</p>
+        <a href="productos.html" class="btn gold">Ver Nuestros Productos</a>
+      </section>
+
+
+      <footer>© 2026 Scentella · Todos los Derechos Reservados · Productos de Limpieza Naturales</footer>
+    </div>
+  </div>
+
+
+  <!-- Cart Modal -->
+  <div id="cartModal" class="modal" aria-hidden="true">
+    <div class="dialog">
+      <button class="close" data-close>&times;</button>
+      <h3>Carrito</h3>
+      <div class="cart-list" id="cartList">Tu carrito está vacío</div>
+      <div style="margin-top:12px;text-align:right;font-size:14px"><strong>TOTAL: <span id="cartTotal">RD$ 0</span></strong></div>
+      <div style="margin-top:12px;text-align:right"><button id="checkoutBtn" class="btn" style="background:linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);color:var(--white);padding:12px 24px;border:0;border-radius:50px;cursor:pointer;font-weight:600">Pagar</button></div>
+    </div>
+  </div>
+
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal" aria-hidden="true">
+    <div class="dialog" role="dialog" aria-modal="true">
+      <button class="close" data-close>&times;</button>
+      <h3 id="loginTitle">Iniciar sesión</h3>
+      <div id="authForms">
+        <form id="loginForm">
+          <label style="display:block;margin-bottom:8px">Email <input name="email" type="email" required style="width:100%;padding:12px;margin-top:6px;border:2px solid var(--beige-dark);border-radius:8px"></label>
+          <label style="display:block;margin-bottom:8px">Contraseña <input name="pass" type="password" required style="width:100%;padding:12px;margin-top:6px;border:2px solid var(--beige-dark);border-radius:8px"></label>
+          <div style="display:flex;gap:8px;margin-top:16px"><button class="btn" style="background:linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);color:var(--white);padding:12px 24px;border:0;border-radius:50px;cursor:pointer;font-weight:600">Entrar</button><button type="button" id="showRegister" class="btn" style="background:transparent;color:var(--gold-dark);border:2px solid var(--gold-dark);padding:12px 24px;border-radius:50px;cursor:pointer;font-weight:600">Crear cuenta</button></div>
+        </form>
+        <form id="registerForm" style="display:none">
+          <label style="display:block;margin-bottom:8px">Nombre <input name="name" required style="width:100%;padding:12px;margin-top:6px;border:2px solid var(--beige-dark);border-radius:8px"></label>
+          <label style="display:block;margin-bottom:8px">Email <input name="email" type="email" required style="width:100%;padding:12px;margin-top:6px;border:2px solid var(--beige-dark);border-radius:8px"></label>
+          <label style="display:block;margin-bottom:8px">Contraseña <input name="pass" type="password" required style="width:100%;padding:12px;margin-top:6px;border:2px solid var(--beige-dark);border-radius:8px"></label>
+          <div style="display:flex;gap:8px;margin-top:16px"><button class="btn" style="background:linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);color:var(--white);padding:12px 24px;border:0;border-radius:50px;cursor:pointer;font-weight:600">Crear</button><button type="button" id="showLogin" class="btn" style="background:transparent;color:var(--gold-dark);border:2px solid var(--gold-dark);padding:12px 24px;border-radius:50px;cursor:pointer;font-weight:600">Volver</button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    const qs = s=>document.querySelector(s), qa=s=>document.querySelectorAll(s);
+
+
+    // Cart functionality
+    const CART_KEY='scentella_cart_v1';
+    let cart = JSON.parse(localStorage.getItem(CART_KEY)||'[]');
+   
+    function saveCart(){localStorage.setItem(CART_KEY,JSON.stringify(cart));}
+    function cartCount(){return cart.reduce((s,i)=>s+i.qty,0)}
+    function updateBadge(){const b=qs('#cartBadge'); if(cartCount()>0){b.style.display='inline-block';b.textContent=cartCount()}else b.style.display='none'}
+   
+    function updateCartModal(){
+      const list=qs('#cartList');
+      if(cart.length===0){
+        list.innerHTML='<p>Tu carrito está vacío.</p>';
+        qs('#cartTotal').textContent='RD$ 0';
+        return;
+      }
+      list.innerHTML='';
+      let total=0;
+      cart.forEach((it,idx)=>{
+        total+=it.price*it.qty;
+        const line=document.createElement('div');
+        line.className='cart-line';
+        line.innerHTML=`<div>${it.name} x ${it.qty}</div><div>RD$ ${(it.price*it.qty).toFixed(0)} <button data-idx='${idx}' style="background:var(--gold);color:var(--white);border:0;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:12px">Eliminar</button></div>`;
+        list.appendChild(line);
+      });
+      qs('#cartTotal').textContent='RD$ '+total.toFixed(0);
+      qa('[data-idx]').forEach(b=>b.addEventListener('click',e=>{
+        const i=Number(e.target.getAttribute('data-idx'));
+        if(!isNaN(i)){
+          cart.splice(i,1);
+          saveCart();
+          updateCartModal();
+          updateBadge();
+        }
+      }));
+    }
+
+
+    function showToast(message){
+      let toast = qs('.toast');
+      if(!toast){
+        toast = document.createElement('div');
+        toast.className = 'toast';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+
+    // Modals
+    function openModal(sel){const m=qs(sel); if(m){m.setAttribute('aria-hidden','false');}}
+    function closeModal(sel){const m=qs(sel); if(m){m.setAttribute('aria-hidden','true');}}
+    qa('[data-close]').forEach(b=>b.addEventListener('click',e=>{ const m=e.target.closest('.modal'); if(m) m.setAttribute('aria-hidden','true'); }));
+    qs('#cartToggle').addEventListener('click',()=>{ updateCartModal(); openModal('#cartModal'); });
+    qs('#loginToggle').addEventListener('click',()=>{ openModal('#loginModal'); });
+    qa('.modal').forEach(m=>{ m.addEventListener('click',e=>{ if(e.target===m) m.setAttribute('aria-hidden','true'); });});
+    qs('#checkoutBtn').addEventListener('click',()=>{ cart=[]; saveCart(); updateCartModal(); updateBadge(); closeModal('#cartModal'); showToast('¡Gracias por tu compra!'); });
+
+
+    // Auth
+    const USERS_KEY='scentella_users_v1';
+    function getUsers(){return JSON.parse(localStorage.getItem(USERS_KEY)||'{}')}
+    function saveUsers(u){localStorage.setItem(USERS_KEY,JSON.stringify(u))}
+    function setUserSession(user){localStorage.setItem('scentella_user',JSON.stringify(user)); renderUser();}
+    function getUserSession(){return JSON.parse(localStorage.getItem('scentella_user')||'null')}
+    function logout(){localStorage.removeItem('scentella_user'); renderUser();}
+
+
+    qs('#showRegister').addEventListener('click',()=>{qs('#loginForm').style.display='none';qs('#registerForm').style.display='block';qs('#loginTitle').textContent='Crear cuenta';});
+    qs('#showLogin').addEventListener('click',()=>{qs('#loginForm').style.display='block';qs('#registerForm').style.display='none';qs('#loginTitle').textContent='Iniciar sesión';});
+
+
+    qs('#registerForm').addEventListener('submit',e=>{
+      e.preventDefault(); const fm=new FormData(e.target); const name=fm.get('name'); const email=fm.get('email'); const pass=fm.get('pass'); const users=getUsers(); if(users[email]){showToast('Ya existe un usuario con ese email');return} users[email]={name,pass:btoa(pass)}; saveUsers(users); setUserSession({email,name}); closeModal('#loginModal'); showToast('Cuenta creada exitosamente');
+    });
+
+
+    qs('#loginForm').addEventListener('submit',e=>{
+      e.preventDefault(); const fm=new FormData(e.target); const email=fm.get('email'); const pass=fm.get('pass'); const users=getUsers(); if(!users[email] || users[email].pass!==btoa(pass)){showToast('Credenciales incorrectas');return} setUserSession({email,name:users[email].name}); closeModal('#loginModal'); showToast('Bienvenido ' + users[email].name);
+    });
+
+
+    function renderUser(){
+      const area=qs('#userArea');
+      const user=getUserSession();
+      area.innerHTML='';
+      if(user){
+        const div=document.createElement('div');
+        div.style.display='flex';
+        div.style.alignItems='center';
+        div.style.gap='8px';
+        div.innerHTML=`<strong style="color:var(--gold-dark)">${user.name}</strong> <button id='logoutBtn' style="background:transparent;border:1px solid var(--gold);color:var(--gold);padding:6px 16px;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600">Cerrar</button>`;
+        area.appendChild(div);
+        qs('#logoutBtn')?.addEventListener('click',logout);
+      }
+    }
+
+
+    // Init
+    updateBadge();
+    renderUser();
+  </script>
+
+
+  <script>
+    (function(){
+      const header = document.querySelector('header');
+      const card = document.querySelector('.card');
+      if(!header) return;
+      let ticking = false;
+
+
+      function updateHeaderOffset(){
+        const h = Math.round(header.getBoundingClientRect().height);
+        if(card) card.style.paddingTop = h + 'px';
+        document.documentElement.style.setProperty('--header-offset', h + 'px');
+      }
+
+
+      function onScroll(){
+        const scrollY = window.scrollY || window.pageYOffset;
+        if(!ticking){
+          window.requestAnimationFrame(()=>{
+            if(scrollY > 20){ header.classList.add('scrolled'); } else { header.classList.remove('scrolled'); }
+            updateHeaderOffset();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }
+
+
+      window.addEventListener('scroll', onScroll, {passive:true});
+      window.addEventListener('resize', updateHeaderOffset, {passive:true});
+      window.addEventListener('DOMContentLoaded', updateHeaderOffset);
+      // run initial measurements and apply scrolled state if the page was loaded scrolled
+      updateHeaderOffset();
+      onScroll();
+      setTimeout(()=>{ updateHeaderOffset(); onScroll(); },60);
+    })();
+  </script>
+</body>
+</html>
+
+
+
