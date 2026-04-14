@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Scentella — Productos</title>
-  <link rel="icon" href="imagenes/scentella.PNG" type="image/png">
   <style>
     :root{--beige:#F5EFE7;--beige-dark:#E8DCC4;--gold:#D4AF37;--gold-dark:#B8952E;--gold-light:#F4E4B8;--deep:#3E2723;--white:#FFFFFF;--muted:#8B7355;--sheet-w:1000px}
     *{box-sizing:border-box}
@@ -41,7 +40,7 @@
 
     /* Hero Section */
     .hero{position:relative;display:flex;align-items:center;padding:100px 64px;min-height:650px;background:linear-gradient(135deg, #FFF8F0 0%, #FFE5CC 20%, #F5EFE7 40%, #E8DCC4 60%, #F4E4B8 80%, #FFF8F0 100%);overflow:hidden;border-top:4px solid var(--gold);border-bottom:4px solid var(--gold)}
-    .hero::before{content:'';position:absolute;top:0;right:0;width:60%;height:100%;background:url('imagenes/ManitasLimpias.png');background-size:cover;background-position:center;opacity:0.15;pointer-events:none;border-radius:50% 0 0 50%;box-shadow:-20px 0 60px rgba(212,175,55,0.2)}
+    .hero::before{content:'';position:absolute;top:0;right:0;width:60%;height:100%;background:url('imagenes/chicaramdon.avif');background-size:cover;background-position:center;opacity:0.15;pointer-events:none;border-radius:50% 0 0 50%;box-shadow:-20px 0 60px rgba(212,175,55,0.2)}
     .hero::after{content:'✦ ✦ ✦';position:absolute;top:20px;right:40px;font-size:24px;color:var(--gold);opacity:0.3;animation:twinkle 2s ease-in-out infinite}
     @keyframes twinkle{0%,100%{opacity:0.3}50%{opacity:0.7}}
     .hero-inner{display:flex;align-items:center;justify-content:space-between;gap:60px;width:100%;max-width:1400px;margin:0 auto;position:relative;z-index:1}
@@ -204,7 +203,7 @@
       <div class="topbar" aria-hidden="true"></div>
       <header>
         <div class="brand-container">
-          <img src="imagenes/scentella.PNG" alt="Scentella Logo" class="brand-logo">
+          <img src="imagenes/Scentella.jpeg" alt="Scentella Logo" class="brand-logo">
           <div class="brand">Scentella</div>
         </div>
         <div class="header-right">
@@ -309,11 +308,11 @@
 
   <script>
     const PRODUCTS_CATALOG = [
-      {id:1,name:'Jabón para Manos',price:350,img:'imagenes/jabonManos.png',desc:'Jabón natural que cuida y protege tus manos'},
-      {id:2,name:'Jabón Lavaplatos',price:450,img:'imagenes/jabonlavaplatos.png',desc:'Elimina grasa efectivamente con aroma fresco'},
-      {id:3,name:'Ambientador',price:550,img:'imagenes/ambientador.png',desc:'Perfuma tu hogar con fragancias naturales'},
-      {id:4,name:'Desinfectante',price:650,img:'imagenes/desinfectante.png',desc:'Elimina 99.9% de bacterias sin químicos agresivos'},
-      {id:5,name:'Manitas Limpias',price:300,img:'imagenes/ManitasLimpias.png',desc:'Especial para manos delicadas de toda la familia'}
+      {id:1,name:'Jabón para Manos Scentella',price:350,img:'imagenes/jabonManos.webp',desc:'Limpia e hidrata sin resecar. ✔ Limpieza profunda,✔ Piel cuidada,✔ Uso diario'},
+      {id:2,name:'Jabón Lavaplatos Scentella',price:450,img:'imagenes/jabonlavaplatos.jpeg',desc:'Quita grasa y deja platos relucientes.✔ Rápido y eficaz,✔ Cuida tus manos,✔ Sin malos olores'},
+      {id:3,name:'Ambientador Scentella',price:250,img:'imagenes/ambientador.jpeg',desc:'Fragancias que renueva tus espacios.✔ Adiós malos olores,✔ Ambiente fresco'},
+      {id:4,name:'Desinfectante Scentella',price:350,img:'imagenes/desinfectante.jpg',desc:'Elimina gérmenes y bacterias.✔ Mata 99.9% de bacterias,✔ Ideal para superficies,✔ Aroma duradero'},
+      {id:5,name:'Manitas Limpias Scentella',price:300,img:'imagenes/Manitaslimpias.webp',desc:'Elimina suciedad difícil y deja superficies brillantes,✔Grasa y manchas fuera,✔Aroma fresco,✔Rinde mucho'}
     ];
 
 
@@ -621,6 +620,5 @@
     </script>
 </body>
 </html>
-
 
 
